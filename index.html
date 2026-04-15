@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Portfolio | High School Interview</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* --- 1. GLOBAL STYLES & COLORS --- */
+      :root {
+        --bg-black: #050505;
+        --deep-green: #0a1f0a;
+        --accent-green: #22c55e;
+        --muted-green: #14532d;
+        --text-gray: #a1a1aa;
+        --text-light: #f4f4f5;
+        --nav-bg: rgba(5, 5, 5, 0.85);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Inter', sans-serif;
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background-color: var(--bg-black);
+        color: var(--text-light);
+        /* Background Effect: Subtle green glow in the center */
+        background: radial-gradient(
+          circle at center,
+          var(--deep-green) 0%,
+          var(--bg-black) 100%
+        );
+        background-attachment: fixed;
+        overflow-x: hidden;
+      }
+
+      /* --- 2. NAVIGATION BAR --- */
+      .navbar {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+        background: var(--nav-bg);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(34, 197, 94, 0.2);
+        padding: 1.2rem 2rem;
+        display: flex;
+        justify-content: center;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: clamp(1rem, 5vw, 2.5rem);
+      }
+
+      .nav-links a {
+        color: var(--text-light);
+        text-decoration: none;
+        font-size: 0.85rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        transition: 0.3s;
+      }
+
+      .nav-links a:hover {
+        color: var(--accent-green);
+        text-shadow: 0 0 8px var(--accent-green);
+      }
+
+      /* --- 3. SECTION SPACING & ANIMATION --- */
+      section {
+        min-height: 100vh;
+        padding: 100px 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .fade-in {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s ease-out;
+      }
+
+      .fade-in.appear {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* --- 4. MAIN PAGE (HERO) --- */
+      .hero h1 {
+        font-size: clamp(2.5rem, 10vw, 5.5rem);
+        margin-bottom: 1rem;
+        text-align: center;
+        background: linear-gradient(to right, #ffffff, var(--accent-green));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 700;
+      }
+
+      .hero .bio {
+        font-size: clamp(1rem, 4vw, 1.25rem);
+        color: var(--text-gray);
+        max-width: 700px;
+        text-align: center;
+        line-height: 1.6;
+      }
+
+      /* --- 5. BEST PROJECT CAROUSEL (THE LOOP) --- */
+      .featured-projects {
+        width: 100%;
+        padding: 50px 0;
+        overflow: hidden;
+      }
+
+      .section-tag {
+        color: var(--accent-green);
+        text-transform: uppercase;
+        letter-spacing: 5px;
+        font-size: 0.8rem;
+        margin-bottom: 2rem;
+        display: block;
+        text-align: center;
+      }
+
+      .swiper {
+        width: 100%;
+        padding: 40px 0 60px 0;
+      }
+
+      .swiper-slide {
+        height: 450px;
+        transition: transform 0.4s ease;
+        display: flex;
+        justify-content: center;
+      }
+
+      .project-card {
+        position: relative;
+        width: 100%;
+        max-width: 700px;
+        height: 100%;
+        border-radius: 20px;
+        overflow: hidden;
+        border: 1px solid rgba(34, 197, 94, 0.15);
+        background: #0a0a0a;
+        cursor: grab;
+      }
+
+      .project-card:active {
+        cursor: grabbing;
+      }
+
+      .project-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: grayscale(100%) brightness(0.4);
+        transition: 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      .swiper-slide-active .project-img,
+      .project-card:hover .project-img {
+        filter: grayscale(0%) brightness(1);
+        transform: scale(1.05);
+      }
+
+      /* Roll-out Description Overlay */
+      .project-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.95) 0%,
+          transparent 70%
+        );
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 2.5rem;
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.5s ease;
+      }
+
+      .project-card:hover .project-overlay {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .project-overlay h3 {
+        font-size: 2rem;
+        color: var(--accent-green);
+        margin-bottom: 0.5rem;
+      }
+
+      .project-overlay p {
+        font-size: 1rem;
+        color: var(--text-light);
+        max-width: 500px;
+      }
+
+      /* --- 6. PLACEHOLDER SECTIONS (SKILLS, AWARDS, ETC.) --- */
+      .placeholder-box {
+        border: 1px dashed var(--muted-green);
+        padding: 40px;
+        border-radius: 15px;
+        text-align: center;
+        width: 100%;
+        max-width: 800px;
+        background: rgba(34, 197, 94, 0.03);
+      }
+
+      /* --- 7. MOBILE RESPONSIVENESS --- */
+      @media (max-width: 768px) {
+        .nav-links {
+          gap: 1rem;
+        }
+        .nav-links a {
+          font-size: 0.7rem;
+        }
+        .swiper-slide {
+          height: 350px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#awards">Awards</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </nav>
+
+    <section id="home" class="hero">
+      <div class="fade-in">
+        <h1>YOUR NAME</h1>
+        <p class="bio">
+          High School Student | 3D Modeler | Web Developer. Crafting digital
+          experiences with a focus on clean design and Supabase integration.
+        </p>
+      </div>
+
+      <div class="featured-projects fade-in">
+        <span class="section-tag">Best Projects</span>
+        <div class="swiper mySwiper">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <div class="project-card">
+                <img
+                  src="https://images.unsplash.com/photo-1614850523296-d8c1af93d400?q=80&w=1000"
+                  class="project-img"
+                />
+                <div class="project-overlay">
+                  <h3>01. 3D Architecture</h3>
+                  <p>
+                    A high-poly skyscraper design rendered in Blender. Focus on
+                    realistic glass textures and green urban spaces.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="swiper-slide">
+              <div class="project-card">
+                <img
+                  src="https://images.unsplash.com/photo-1633356122544-f134324a6cee?q=80&w=1000"
+                  class="project-img"
+                />
+                <div class="project-overlay">
+                  <h3>02. Data Manager</h3>
+                  <p>
+                    A full-stack application using Supabase for real-time data
+                    tracking and user authentication.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="swiper-slide">
+              <div class="project-card">
+                <img
+                  src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1000"
+                  class="project-img"
+                />
+                <div class="project-overlay">
+                  <h3>03. UI/UX Design</h3>
+                  <p>
+                    A dark-themed interface design for a creative agency,
+                    optimized for mobile and desktop users.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills" class="fade-in">
+      <span class="section-tag">My Toolkit</span>
+      <div class="placeholder-box">
+        <h2>Skills Section</h2>
+        <p>Ready for your 3D Modeling, HTML, and CSS skill cards!</p>
+      </div>
+    </section>
+
+    <section id="projects-list" class="fade-in">
+      <span class="section-tag">Full Gallery</span>
+      <div class="placeholder-box">
+        <h2>Project Grid</h2>
+        <p>You can list all your secondary projects here.</p>
+      </div>
+    </section>
+
+    <section id="awards" class="fade-in">
+      <span class="section-tag">Achievements</span>
+      <div class="placeholder-box">
+        <h2>Awards Timeline</h2>
+        <p>A vertical line showing your high school achievements over time.</p>
+      </div>
+    </section>
+
+    <section id="contact" class="fade-in">
+      <span class="section-tag">Get In Touch</span>
+      <div class="placeholder-box">
+        <h2>Contact Box</h2>
+        <p>This is where your Supabase-powered message form will go.</p>
+      </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script>
+      // 1. Initialize Swiper (The Infinite Loop Carousel)
+      var swiper = new Swiper('.mySwiper', {
+        loop: true, // Infinite rolling
+        loopedSlides: 3, // Keeps the loop smooth with 3 slides
+        centeredSlides: true,
+        grabCursor: true,
+        speed: 900, // Transition speed
+        autoplay: {
+          delay: 3000, // Roll every 3 seconds
+          disableOnInteraction: false,
+        },
+        breakpoints: {
+          320: { slidesPerView: 1.1, spaceBetween: 20 },
+          768: { slidesPerView: 1.5, spaceBetween: 30 },
+          1024: { slidesPerView: 2.2, spaceBetween: 50 },
+        },
+      });
+
+      // 2. Scroll Animation (Fade-in effect when scrolling down)
+      const observerOptions = { threshold: 0.1 };
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('appear');
+          }
+        });
+      }, observerOptions);
+
+      document
+        .querySelectorAll('.fade-in')
+        .forEach((el) => observer.observe(el));
+    </script>
+  </body>
+</html>
