@@ -1,388 +1,1121 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Portfolio | High School Interview</title>
-
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
-    />
-
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap"
-      rel="stylesheet"
-    />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brian Yu | Portfolio</title>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
     <style>
-      /* --- 1. GLOBAL STYLES & COLORS --- */
-      :root {
-        --bg-black: #050505;
-        --deep-green: #0a1f0a;
-        --accent-green: #22c55e;
-        --muted-green: #14532d;
-        --text-gray: #a1a1aa;
-        --text-light: #f4f4f5;
-        --nav-bg: rgba(5, 5, 5, 0.85);
-      }
+        /* --- 1. CORE THEME & GLOBAL --- */
+        :root {
+            --bg-black: #050505;
+            --deep-green: #0a1f0a;
+            --accent-green: #22c55e;
+            --muted-green: #14532d;
+            --text-gray: #a1a1aa;
+            --text-light: #f4f4f5;
+            --nav-bg: rgba(5, 5, 5, 0.9);
+        }
 
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: 'Inter', sans-serif;
-        scroll-behavior: smooth;
-      }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
 
-      body {
-        background-color: var(--bg-black);
-        color: var(--text-light);
-        /* Background Effect: Subtle green glow in the center */
-        background: radial-gradient(
-          circle at center,
-          var(--deep-green) 0%,
-          var(--bg-black) 100%
-        );
-        background-attachment: fixed;
-        overflow-x: hidden;
-      }
+        body {
+            background-color: var(--bg-black);
+            color: var(--text-light);
+            background: radial-gradient(circle at center, var(--deep-green) 0%, var(--bg-black) 100%);
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
 
-      /* --- 2. NAVIGATION BAR --- */
-      .navbar {
-        position: fixed;
-        top: 0;
-        width: 100%;
-        z-index: 1000;
-        background: var(--nav-bg);
-        backdrop-filter: blur(12px);
-        border-bottom: 1px solid rgba(34, 197, 94, 0.2);
-        padding: 1.2rem 2rem;
-        display: flex;
-        justify-content: center;
-      }
+        /* --- 2. NAVIGATION --- */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: var(--nav-bg);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(34, 197, 94, 0.1);
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: center;
+        }
 
-      .nav-links {
-        display: flex;
-        gap: clamp(1rem, 5vw, 2.5rem);
-      }
-
-      .nav-links a {
-        color: var(--text-light);
-        text-decoration: none;
-        font-size: 0.85rem;
-        font-weight: 500;
-        text-transform: uppercase;
-        letter-spacing: 1.5px;
-        transition: 0.3s;
-      }
-
-      .nav-links a:hover {
-        color: var(--accent-green);
-        text-shadow: 0 0 8px var(--accent-green);
-      }
-
-      /* --- 3. SECTION SPACING & ANIMATION --- */
-      section {
-        min-height: 100vh;
-        padding: 100px 2rem;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .fade-in {
-        opacity: 0;
-        transform: translateY(30px);
-        transition: all 0.8s ease-out;
-      }
-
-      .fade-in.appear {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-      /* --- 4. MAIN PAGE (HERO) --- */
-      .hero h1 {
-        font-size: clamp(2.5rem, 10vw, 5.5rem);
-        margin-bottom: 1rem;
-        text-align: center;
-        background: linear-gradient(to right, #ffffff, var(--accent-green));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        font-weight: 700;
-      }
-
-      .hero .bio {
-        font-size: clamp(1rem, 4vw, 1.25rem);
-        color: var(--text-gray);
-        max-width: 700px;
-        text-align: center;
-        line-height: 1.6;
-      }
-
-      /* --- 5. BEST PROJECT CAROUSEL (THE LOOP) --- */
-      .featured-projects {
-        width: 100%;
-        padding: 50px 0;
-        overflow: hidden;
-      }
-
-      .section-tag {
-        color: var(--accent-green);
-        text-transform: uppercase;
-        letter-spacing: 5px;
-        font-size: 0.8rem;
-        margin-bottom: 2rem;
-        display: block;
-        text-align: center;
-      }
-
-      .swiper {
-        width: 100%;
-        padding: 40px 0 60px 0;
-      }
-
-      .swiper-slide {
-        height: 450px;
-        transition: transform 0.4s ease;
-        display: flex;
-        justify-content: center;
-      }
-
-      .project-card {
-        position: relative;
-        width: 100%;
-        max-width: 700px;
-        height: 100%;
-        border-radius: 20px;
-        overflow: hidden;
-        border: 1px solid rgba(34, 197, 94, 0.15);
-        background: #0a0a0a;
-        cursor: grab;
-      }
-
-      .project-card:active {
-        cursor: grabbing;
-      }
-
-      .project-img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        filter: grayscale(100%) brightness(0.4);
-        transition: 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-      }
-
-      .swiper-slide-active .project-img,
-      .project-card:hover .project-img {
-        filter: grayscale(0%) brightness(1);
-        transform: scale(1.05);
-      }
-
-      /* Roll-out Description Overlay */
-      .project-overlay {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(
-          to top,
-          rgba(0, 0, 0, 0.95) 0%,
-          transparent 70%
-        );
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        padding: 2.5rem;
-        opacity: 0;
-        transform: translateY(30px);
-        transition: all 0.5s ease;
-      }
-
-      .project-card:hover .project-overlay {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-      .project-overlay h3 {
-        font-size: 2rem;
-        color: var(--accent-green);
-        margin-bottom: 0.5rem;
-      }
-
-      .project-overlay p {
-        font-size: 1rem;
-        color: var(--text-light);
-        max-width: 500px;
-      }
-
-      /* --- 6. PLACEHOLDER SECTIONS (SKILLS, AWARDS, ETC.) --- */
-      .placeholder-box {
-        border: 1px dashed var(--muted-green);
-        padding: 40px;
-        border-radius: 15px;
-        text-align: center;
-        width: 100%;
-        max-width: 800px;
-        background: rgba(34, 197, 94, 0.03);
-      }
-
-      /* --- 7. MOBILE RESPONSIVENESS --- */
-      @media (max-width: 768px) {
         .nav-links {
-          gap: 1rem;
+            display: flex;
+            gap: clamp(1rem, 5vw, 2.5rem);
         }
+
         .nav-links a {
-          font-size: 0.7rem;
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: 0.3s;
         }
-        .swiper-slide {
-          height: 350px;
+
+        .nav-links a:hover {
+            color: var(--accent-green);
         }
-      }
+
+        /* --- 3. REUSABLE UTILITIES --- */
+        section {
+            min-height: 100vh;
+            padding: 120px 2rem 60px 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1s ease-out;
+        }
+
+        .fade-in.appear {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-tag {
+            color: var(--accent-green);
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            font-size: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        /* --- 4. MAIN PAGE (HERO & CAROUSEL) --- */
+        .hero { text-align: center; justify-content: center; }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 10vw, 5.5rem);
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, #ffffff, var(--accent-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero .bio {
+            font-size: clamp(1rem, 4vw, 1.2rem);
+            color: var(--text-gray);
+            max-width: 700px;
+            margin: 0 auto 3rem auto;
+            line-height: 1.6;
+        }
+
+        .swiper { width: 100%; padding: 50px 0; }
+        .swiper-slide { height: 450px; display: flex; justify-content: center; }
+
+        .project-card {
+            position: relative;
+            width: 100%;
+            max-width: 650px;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(34, 197, 94, 0.1);
+            background: #0a0a0a;
+            cursor: grab;
+        }
+
+        .project-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%) brightness(0.4);
+            transition: 0.7s ease;
+        }
+
+        .swiper-slide-active .project-img, .project-card:hover .project-img {
+            filter: grayscale(0%) brightness(1);
+            transform: scale(1.05);
+        }
+
+        .project-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent 70%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: 0.4s ease;
+        }
+
+        .project-card:hover .project-overlay { opacity: 1; transform: translateY(0); }
+        .project-overlay h3 { color: var(--accent-green); margin-bottom: 0.5rem; }
+
+        /* --- 5. SKILLS PAGE --- */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            width: 100%;
+            max-width: 1200px;
+            margin-top: 2rem;
+        }
+
+        .skill-card {
+            background: rgba(10, 31, 10, 0.2);
+            border: 1px solid rgba(34, 197, 94, 0.1);
+            padding: 2.5rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-green);
+            box-shadow: 0 10px 40px rgba(34, 197, 94, 0.2);
+            background: rgba(10, 31, 10, 0.5);
+        }
+
+        .skill-icon {
+            color: var(--accent-green);
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .skill-card p {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .skill-progress-bg {
+            background: rgba(255, 255, 255, 0.05);
+            height: 6px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .skill-progress-fill {
+            background: var(--accent-green);
+            height: 100%;
+            width: 0; 
+            box-shadow: 0 0 10px var(--accent-green);
+            transition: width 2s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .appear .skill-progress-fill { width: var(--level); }
+
+        /* --- 6. PROJECTS GALLERY --- */
+        .gallery-filters {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--accent-green);
+            color: var(--text-light);
+            padding: 8px 24px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--accent-green);
+            color: var(--bg-black);
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.4);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .gallery-card {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid rgba(34, 197, 94, 0.15);
+            aspect-ratio: 4/3;
+            cursor: pointer;
+            background: #000;
+        }
+
+        @keyframes popIn {
+            0% { opacity: 0; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .gallery-card.hide { display: none; }
+        .gallery-card.show { animation: popIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+
+        .gallery-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            filter: brightness(0.5) grayscale(50%);
+        }
+
+        .gallery-card:hover img {
+            transform: scale(1.1);
+            filter: brightness(0.2) grayscale(0%);
+        }
+
+        .gallery-info {
+            position: absolute;
+            bottom: -80px; 
+            left: 0;
+            width: 100%;
+            padding: 2rem;
+            background: linear-gradient(to top, rgba(5,5,5,1) 0%, rgba(5,5,5,0.8) 50%, transparent 100%);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+        }
+
+        .gallery-card:hover .gallery-info {
+            bottom: 0;
+            opacity: 1;
+        }
+
+        .gallery-info h3 { color: var(--accent-green); font-size: 1.4rem; margin-bottom: 0.5rem; }
+        .gallery-info p { color: var(--text-gray); font-size: 0.9rem; line-height: 1.5; margin-bottom: 1rem; }
+        
+        .tag {
+            display: inline-block;
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            background: var(--muted-green);
+            border-radius: 4px;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        /* --- 7. AWARDS TIMELINE (2008-2026) --- */
+        .timeline {
+            position: relative;
+            max-width: 900px;
+            margin: 2rem auto;
+            width: 100%;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background: var(--muted-green);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+            border-radius: 5px;
+        }
+
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+        }
+
+        .timeline-item.left { left: 0; }
+        .timeline-item.right { left: 50%; }
+
+        .timeline-dot {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: var(--bg-black);
+            border: 4px solid var(--accent-green);
+            border-radius: 50%;
+            top: 25px;
+            z-index: 1;
+            box-shadow: 0 0 15px var(--accent-green);
+        }
+
+        .timeline-item.left .timeline-dot { right: -10px; }
+        .timeline-item.right .timeline-dot { left: -10px; }
+
+        .timeline-content {
+            padding: 15px 30px;
+            background: rgba(10, 31, 10, 0.3);
+            border: 1px solid rgba(34, 197, 94, 0.15);
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .timeline-content:hover {
+            border-color: var(--accent-green);
+            box-shadow: 0 8px 30px rgba(34, 197, 94, 0.2);
+            background: rgba(10, 31, 10, 0.6);
+            text-align: left;
+        }
+
+        .timeline-content .year { 
+            font-weight: 700; 
+            color: var(--accent-green); 
+            font-size: 1.8rem; 
+            transition: all 0.4s ease;
+            display: inline-block;
+        }
+        
+        .timeline-content:hover .year {
+            font-size: 0.9rem;
+            background: var(--muted-green);
+            color: var(--text-light);
+            padding: 4px 12px;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+
+        .award-details {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .timeline-content:hover .award-details {
+            max-height: 600px;
+            opacity: 1;
+            margin-top: 0.5rem;
+        }
+
+        .award-details h3 { color: var(--accent-green); margin-bottom: 0.5rem; font-size: 1.3rem; }
+        .award-details p { color: var(--text-gray); font-size: 0.95rem; line-height: 1.5; }
+
+        .award-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            filter: grayscale(50%);
+            transition: 0.4s;
+        }
+
+        .timeline-content:hover .award-img { filter: grayscale(0%); }
+
+        /* --- 8. CONTACT PAGE --- */
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 4rem;
+            width: 100%;
+            max-width: 1000px;
+            margin-top: 2rem;
+        }
+
+        .contact-info { display: flex; flex-direction: column; gap: 2rem; }
+
+        .info-item h4 {
+            color: var(--accent-green);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-form { display: flex; flex-direction: column; gap: 1.5rem; }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            border-radius: 8px;
+            color: white;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: var(--accent-green);
+            background: rgba(34, 197, 94, 0.05);
+        }
+
+        .send-btn {
+            background: var(--accent-green);
+            color: var(--bg-black);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            width: max-content;
+        }
+
+        .send-btn:hover {
+            background: #16a34a; 
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(34, 197, 94, 0.3);
+        }
+
+        /* --- 9. PROJECT MODAL (POP-UP) --- */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.active { display: flex; opacity: 1; }
+
+        .modal-content {
+            background: var(--bg-black);
+            border: 1px solid var(--accent-green);
+            border-radius: 20px;
+            max-width: 900px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 50px rgba(34, 197, 94, 0.15);
+        }
+
+        .modal.active .modal-content { transform: scale(1); }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            color: var(--text-light);
+            font-size: 2.5rem;
+            line-height: 1;
+            cursor: pointer;
+            z-index: 10;
+            transition: 0.3s;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+        }
+
+        .close-btn:hover { color: var(--accent-green); transform: scale(1.1); }
+
+        #modal-img {
+            width: 100%;
+            max-height: 40vh;
+            object-fit: cover;
+            border-bottom: 1px solid rgba(34, 197, 94, 0.2);
+        }
+
+        .modal-info-box { padding: 2.5rem; }
+        #modal-title { color: var(--accent-green); font-size: 2rem; margin: 1rem 0 1rem 0; }
+        #modal-desc { color: var(--text-gray); font-size: 1rem; line-height: 1.6; margin-bottom: 2rem; }
+
+        .modal-btn {
+            display: inline-block;
+            background: var(--accent-green);
+            color: var(--bg-black);
+            padding: 12px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        .modal-btn:hover {
+            background: #16a34a;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(34, 197, 94, 0.3);
+        }
+
+        /* --- 10. RESPONSIVE MEDIA QUERIES --- */
+        @media (max-width: 768px) {
+            .swiper-slide { height: 350px; }
+            .contact-container { grid-template-columns: 1fr; gap: 2rem; }
+            
+            /* Timeline Mobile Fixes */
+            .timeline::after { left: 20px; }
+            .timeline-item { width: 100%; padding-left: 50px; padding-right: 0; }
+            .timeline-item.right { left: 0; }
+            .timeline-item.left .timeline-dot, .timeline-item.right .timeline-dot { left: 10px; right: auto; }
+        }
+
+        @media (min-width: 768px) {
+            /* Modal Desktop Fixes */
+            .modal-content { flex-direction: row; height: 500px; }
+            #modal-img {
+                width: 50%;
+                max-height: none;
+                border-bottom: none;
+                border-right: 1px solid rgba(34, 197, 94, 0.2);
+            }
+            .modal-info-box {
+                width: 50%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: flex-start;
+            }
+        }
     </style>
-  </head>
-  <body>
+</head>
+<body>
+
     <nav class="navbar">
-      <div class="nav-links">
-        <a href="#home">Home</a>
-        <a href="#skills">Skills</a>
-        <a href="#projects">Projects</a>
-        <a href="#awards">Awards</a>
-        <a href="#contact">Contact</a>
-      </div>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#skills">Skills</a>
+            <a href="#projects">Projects</a>
+            <a href="#awards">Awards</a>
+            <a href="#contact">Contact</a>
+        </div>
     </nav>
 
     <section id="home" class="hero">
-      <div class="fade-in">
-        <h1>YOUR NAME</h1>
-        <p class="bio">
-          High School Student | 3D Modeler | Web Developer. Crafting digital
-          experiences with a focus on clean design and Supabase integration.
-        </p>
-      </div>
-
-      <div class="featured-projects fade-in">
-        <span class="section-tag">Best Projects</span>
-        <div class="swiper mySwiper">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <div class="project-card">
-                <img
-                  src="https://images.unsplash.com/photo-1614850523296-d8c1af93d400?q=80&w=1000"
-                  class="project-img"
-                />
-                <div class="project-overlay">
-                  <h3>01. 3D Architecture</h3>
-                  <p>
-                    A high-poly skyscraper design rendered in Blender. Focus on
-                    realistic glass textures and green urban spaces.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div class="swiper-slide">
-              <div class="project-card">
-                <img
-                  src="https://images.unsplash.com/photo-1633356122544-f134324a6cee?q=80&w=1000"
-                  class="project-img"
-                />
-                <div class="project-overlay">
-                  <h3>02. Data Manager</h3>
-                  <p>
-                    A full-stack application using Supabase for real-time data
-                    tracking and user authentication.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div class="swiper-slide">
-              <div class="project-card">
-                <img
-                  src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1000"
-                  class="project-img"
-                />
-                <div class="project-overlay">
-                  <h3>03. UI/UX Design</h3>
-                  <p>
-                    A dark-themed interface design for a creative agency,
-                    optimized for mobile and desktop users.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div class="fade-in">
+            <span class="section-tag">Portfolio 2026</span>
+            <h1>Brian Yu</h1>
+            <p class="bio">High School Student & Developer. Specialist in 3D Modeling for Roblox game development, Web Design, and Practical Electrical Engineering.</p>
         </div>
-      </div>
+
+        <div class="swiper mySwiper fade-in">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div class="project-card">
+                        <img src="https://images.unsplash.com/photo-1614850523296-d8c1af93d400?q=80&w=1000" class="project-img">
+                        <div class="project-overlay">
+                            <h3>01. 3D Architectural Model</h3>
+                            <p>A futuristic 3D model design created in Blender.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="project-card">
+                        <img src="https://images.unsplash.com/photo-1633356122544-f134324a6cee?q=80&w=1000" class="project-img">
+                        <div class="project-overlay">
+                            <h3>02. Website Design</h3>
+                            <p>Combining back-end and front-end to create interesting, interactive websites.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="project-card">
+                        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1000" class="project-img">
+                        <div class="project-overlay">
+                            <h3>03. Electrical Engineering</h3>
+                            <p>Creating physical, hands-on projects for solving everyday life problems.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
     <section id="skills" class="fade-in">
-      <span class="section-tag">My Toolkit</span>
-      <div class="placeholder-box">
-        <h2>Skills Section</h2>
-        <p>Ready for your 3D Modeling, HTML, and CSS skill cards!</p>
-      </div>
+        <span class="section-tag">Expertise</span>
+        <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">My Toolkit</h2>
+        
+        <div class="skills-grid">
+            <div class="skill-card">
+                <span class="skill-icon">3D Modeling</span>
+                <h3>Digital Sculpting</h3>
+                <p>Blender, rendering, and designing great models for Roblox game development.</p>
+                <div class="skill-progress-bg">
+                    <div class="skill-progress-fill" style="--level: 30%;"></div>
+                </div>
+            </div>
+
+            <div class="skill-card">
+                <span class="skill-icon">Online Web Work</span>
+                <h3>Web Design</h3>
+                <p>Building modern, responsive layouts using HTML, CSS, and JavaScript.</p>
+                <div class="skill-progress-bg">
+                    <div class="skill-progress-fill" style="--level: 65%;"></div>
+                </div>
+            </div>
+
+            <div class="skill-card">
+                <span class="skill-icon">Hands-on Work</span>
+                <h3>Electrical Works</h3>
+                <p>Executing practical problem-solving projects that add convenience to life.</p>
+                <div class="skill-progress-bg">
+                    <div class="skill-progress-fill" style="--level: 85%;"></div>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <section id="projects-list" class="fade-in">
-      <span class="section-tag">Full Gallery</span>
-      <div class="placeholder-box">
-        <h2>Project Grid</h2>
-        <p>You can list all your secondary projects here.</p>
-      </div>
+    <section id="projects" class="fade-in">
+        <span class="section-tag">My Work</span>
+        <h2 style="font-size: 2.5rem; margin-bottom: 1rem; text-align: center;">Project Gallery</h2>
+        
+        <div class="gallery-filters fade-in">
+            <button class="filter-btn active" data-filter="all">All Projects</button>
+            <button class="filter-btn" data-filter="3d">3D Models</button>
+            <button class="filter-btn" data-filter="web">Web Design</button>
+            <button class="filter-btn" data-filter="hardware">Hardware</button>
+        </div>
+
+        <div class="gallery-grid">
+            
+            <div class="gallery-card show" data-category="3d">
+                <img src="https://images.unsplash.com/photo-1614850523296-d8c1af93d400?q=80&w=600" alt="3D Project">
+                <div class="gallery-info">
+                    <h3>Sci-Fi City Map</h3>
+                    <p>A highly optimized, low-poly map designed in Blender specifically for Roblox game integration.</p>
+                    <span class="tag">3D Model</span>
+                </div>
+            </div>
+
+            <div class="gallery-card show" data-category="web">
+                <img src="https://images.unsplash.com/photo-1633356122544-f134324a6cee?q=80&w=600" alt="Web Project">
+                <div class="gallery-info">
+                    <h3>Interactive Portfolio</h3>
+                    <p>A dynamic, responsive front-end website utilizing custom CSS animations and JavaScript.</p>
+                    <span class="tag">Web Design</span>
+                </div>
+            </div>
+
+            <div class="gallery-card show" data-category="hardware">
+                <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=600" alt="Hardware Project">
+                <div class="gallery-info">
+                    <h3>Smart Desk Lamp</h3>
+                    <p>A practical electrical engineering project featuring custom circuits and 3D printed housing.</p>
+                    <span class="tag">Hardware</span>
+                </div>
+            </div>
+
+            <div class="gallery-card show" data-category="3d">
+                <img src="https://images.unsplash.com/photo-1618365908648-e71bd5716cba?q=80&w=600" alt="3D Project 2">
+                <div class="gallery-info">
+                    <h3>Custom Weapon Assets</h3>
+                    <p>Hard-surface modeling of futuristic weapons with custom texturing for a Roblox FPS game.</p>
+                    <span class="tag">3D Model</span>
+                </div>
+            </div>
+
+            <div class="gallery-card show" data-category="web">
+                <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=600" alt="Web Project 2">
+                <div class="gallery-info">
+                    <h3>E-Commerce Mockup</h3>
+                    <p>A modern online storefront layout designed with user experience and conversion in mind.</p>
+                    <span class="tag">Web Design</span>
+                </div>
+            </div>
+
+            <div class="gallery-card show" data-category="hardware">
+                <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=600" alt="Hardware Project 2">
+                <div class="gallery-info">
+                    <h3>Automated Plant Waterer</h3>
+                    <p>Solving everyday problems using moisture sensors and a simple water pump circuit.</p>
+                    <span class="tag">Hardware</span>
+                </div>
+            </div>
+
+        </div>
     </section>
 
     <section id="awards" class="fade-in">
-      <span class="section-tag">Achievements</span>
-      <div class="placeholder-box">
-        <h2>Awards Timeline</h2>
-        <p>A vertical line showing your high school achievements over time.</p>
-      </div>
+        <span class="section-tag">My Journey</span>
+        <h2 style="font-size: 2.5rem; margin-bottom: 3rem; text-align: center;">Achievements & Milestones</h2>
+        
+        <div class="timeline">
+            <div class="timeline-item left fade-in">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="year">2026</div>
+                    <div class="award-details">
+                        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=500" alt="Tech Award" class="award-img">
+                        <h3>High School Tech Innovator</h3>
+                        <p>Recognized for combining 3D modeling with practical electrical engineering to solve everyday problems.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item right fade-in">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="year">2025</div>
+                    <div class="award-details">
+                        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=500" alt="Milestone" class="award-img">
+                        <h3>Project Milestone</h3>
+                        <p>Add a description of a major project, exam, or skill you mastered this year.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item left fade-in">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="year">2024</div>
+                    <div class="award-details">
+                        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=500" alt="Milestone" class="award-img">
+                        <h3>Skill Unlocked</h3>
+                        <p>Add a description of a major project, exam, or skill you mastered this year.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item right fade-in">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="year">2023</div>
+                    <div class="award-details">
+                        <img src="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?q=80&w=500" alt="Gaming Award" class="award-img">
+                        <h3>Roblox Game Dev Competition</h3>
+                        <p>Designed and rendered a complete custom map using Blender, optimizing hard-surface models for smooth gameplay.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item left fade-in">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="year">2022</div>
+                    <div class="award-details">
+                        <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?q=80&w=500" alt="Milestone" class="award-img">
+                        <h3>New Focus Area</h3>
+                        <p>Add a description of what you were working on or learning during this time.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item right fade-in">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="year">2021</div>
+                    <div class="award-details">
+                        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=500" alt="Milestone" class="award-img">
+                        <h3>Tech Discovery</h3>
+                        <p>Add a description of what you were working on or learning during this time.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item left fade-in">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="year">2020</div>
+                    <div class="award-details">
+                        <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=500" alt="Milestone" class="award-img">
+                        <h3>Digital Creator</h3>
+                        <p>Add a description of what you were working on or learning during this time.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item right fade-in">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="year">2019</div>
+                    <div class="award-details">
+                        <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=500" alt="Milestone" class="award-img">
+                        <h3>Engineering Basics</h3>
+                        <p>Add a description of what you were working on or learning during this time.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item left fade-in">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="year">2018</div>
+                    <div class="award-details">
+                        <img src="https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?q=80&w=500" alt="Science Fair" class="award-img">
+                        <h3>Junior Science Fair</h3>
+                        <p>Built my first interactive electrical circuit project, sparking my interest in how hardware and software connect.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item right fade-in">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="year">2017</div>
+                    <div class="award-details">
+                        <img src="https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?q=80&w=500" alt="Milestone" class="award-img">
+                        <h3>Early Concepts</h3>
+                        <p>Add a description of a hobby or interest that started to grow this year.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item left fade-in">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="year">2016</div>
+                    <div class="award-details">
+                        <img src="https://images.unsplash.com/photo-1506143925201-0252c51780b0?q=80&w=500" alt="Milestone" class="award-img">
+                        <h3>Building Foundations</h3>
+                        <p>Add a description of a hobby or interest that started to grow this year.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item right fade-in">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="year">2015</div>
+                    <div class="award-details">
+                        <img src="https://images.unsplash.com/photo-1600132806370-bf17e65e942f?q=80&w=500" alt="Milestone" class="award-img">
+                        <h3>Curiosity Grows</h3>
+                        <p>Add a brief memory of exploring tech, games, or building things.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item left fade-in">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="year">2014</div>
+                    <div class="award-details">
+                        <img src="https://images.unsplash.com/photo-1500989145603-8e7ef71d639e?q=80&w=500" alt="Milestone" class="award-img">
+                        <h3>First Experiments</h3>
+                        <p>Add a brief memory of exploring tech, games, or building things.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item right fade-in">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="year">2013</div>
+                    <div class="award-details">
+                        <img src="https://images.unsplash.com/photo-1496171367470-9ed9a91ea931?q=80&w=500" alt="Milestone" class="award-img">
+                        <h3>Learning the Ropes</h3>
+                        <p>Add a brief memory of exploring tech, games, or building things.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item left fade-in">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="year">2012</div>
+                    <div class="award-details">
+                        <img src="https://images.unsplash.com/photo-1502082553048-f009c37129b9?q=80&w=500" alt="Milestone" class="award-img">
+                        <h3>Nature & Mechanics</h3>
+                        <p>A fun memory from childhood that relates to your current skills.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item right fade-in">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="year">2011</div>
+                    <div class="award-details">
+                        <img src="https://images.unsplash.com/photo-1610484826967-09c5720778c7?q=80&w=500" alt="Milestone" class="award-img">
+                        <h3>Early Discoveries</h3>
+                        <p>A fun memory from childhood that relates to your current skills.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item left fade-in">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="year">2010</div>
+                    <div class="award-details">
+                        <img src="https://images.unsplash.com/photo-1531685250784-af587016e6ba?q=80&w=500" alt="Milestone" class="award-img">
+                        <h3>Imagination Sparks</h3>
+                        <p>A fun memory from childhood that relates to your current skills.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item right fade-in">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="year">2009</div>
+                    <div class="award-details">
+                        <img src="https://images.unsplash.com/photo-1587654780288-6a273aed852d?q=80&w=500" alt="Milestone" class="award-img">
+                        <h3>Tinkering</h3>
+                        <p>A fun memory from childhood that relates to your current skills.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item left fade-in">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="year">2008</div>
+                    <div class="award-details">
+                        <img src="https://images.unsplash.com/photo-1603539947678-cd3954ed515d?q=80&w=500" alt="Building Blocks" class="award-img">
+                        <h3>Where It All Started</h3>
+                        <p>My journey into building and creating began. Always taking things apart to see how they work.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
     <section id="contact" class="fade-in">
-      <span class="section-tag">Get In Touch</span>
-      <div class="placeholder-box">
-        <h2>Contact Box</h2>
-        <p>This is where your Supabase-powered message form will go.</p>
-      </div>
+        <span class="section-tag">Get In Touch</span>
+        <h2 style="font-size: 2.5rem; margin-bottom: 2rem;">Message Me</h2>
+        
+        <div class="contact-container">
+            <div class="contact-info">
+                <div class="info-item">
+                    <h4>Email</h4>
+                    <p>ryansino00@gmail.com</p>
+                </div>
+                <div class="info-item">
+                    <h4>Location</h4>
+                    <p>Hong Kong</p>
+                </div>
+                <div class="info-item">
+                    <h4>Social</h4>
+                    <p>Roblox / GitHub</p>
+                </div>
+            </div>
+
+            <form class="contact-form" id="supabase-form">
+                <div class="form-group">
+                    <input type="text" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" placeholder="Your Email" required>
+                </div>
+                <div class="form-group">
+                    <textarea placeholder="Your Message" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="send-btn">Send Message</button>
+            </form>
+        </div>
     </section>
 
+    <div id="project-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <img id="modal-img" src="" alt="Project Image">
+            <div class="modal-info-box">
+                <span id="modal-tag" class="tag"></span>
+                <h3 id="modal-title">Project Title</h3>
+                <p id="modal-desc">Project description goes here.</p>
+                <a href="#" class="modal-btn">View Live Project</a>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
     <script>
-      // 1. Initialize Swiper (The Infinite Loop Carousel)
-      var swiper = new Swiper('.mySwiper', {
-        loop: true, // Infinite rolling
-        loopedSlides: 3, // Keeps the loop smooth with 3 slides
-        centeredSlides: true,
-        grabCursor: true,
-        speed: 900, // Transition speed
-        autoplay: {
-          delay: 3000, // Roll every 3 seconds
-          disableOnInteraction: false,
-        },
-        breakpoints: {
-          320: { slidesPerView: 1.1, spaceBetween: 20 },
-          768: { slidesPerView: 1.5, spaceBetween: 30 },
-          1024: { slidesPerView: 2.2, spaceBetween: 50 },
-        },
-      });
-
-      // 2. Scroll Animation (Fade-in effect when scrolling down)
-      const observerOptions = { threshold: 0.1 };
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('appear');
-          }
+        // --- 1. CAROUSEL LOGIC ---
+        var swiper = new Swiper(".mySwiper", {
+            loop: true,
+            centeredSlides: true,
+            grabCursor: true,
+            autoplay: { delay: 3000, disableOnInteraction: false },
+            speed: 800,
+            breakpoints: {
+                320: { slidesPerView: 1.2, spaceBetween: 20 },
+                768: { slidesPerView: 1.8, spaceBetween: 30 },
+                1024: { slidesPerView: 2.3, spaceBetween: 40 }
+            }
         });
-      }, observerOptions);
 
-      document
-        .querySelectorAll('.fade-in')
-        .forEach((el) => observer.observe(el));
+        // --- 2. SCROLL ANIMATION LOGIC ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('appear');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach((el) => observer.observe(el));
+
+        // --- 3. GALLERY FILTER LOGIC ---
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const galleryCards = document.querySelectorAll('.gallery-card');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+
+                const filterValue = button.getAttribute('data-filter');
+
+                galleryCards.forEach(card => {
+                    const cardCategory = card.getAttribute('data-category');
+                    card.classList.remove('show');
+                    card.classList.add('hide');
+
+                    setTimeout(() => {
+                        if (filterValue === 'all' || filterValue === cardCategory) {
+                            card.classList.remove('hide');
+                            card.classList.add('show');
+                        }
+                    }, 50); 
+                });
+            });
+        });
+
+        // --- 4. PROJECT MODAL LOGIC ---
+        const modal = document.getElementById('project-modal');
+        const modalImg = document.getElementById('modal-img');
+        const modalTitle = document.getElementById('modal-title');
+        const modalDesc = document.getElementById('modal-desc');
+        const modalTag = document.getElementById('modal-tag');
+        const closeBtn = document.querySelector('.close-btn');
+
+        galleryCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const imgSrc = card.querySelector('img').src;
+                const title = card.querySelector('h3').innerText;
+                const desc = card.querySelector('p').innerText;
+                const tag = card.querySelector('.tag').innerText;
+
+                modalImg.src = imgSrc;
+                modalTitle.innerText = title;
+                modalDesc.innerText = desc;
+                modalTag.innerText = tag;
+
+                modal.classList.add('active');
+            });
+        });
+
+        closeBtn.addEventListener('click', () => {
+            modal.classList.remove('active');
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+            }
+        });
     </script>
-  </body>
+</body>
 </html>
